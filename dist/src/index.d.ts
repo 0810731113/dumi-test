@@ -1,0 +1,9 @@
+export { default as Foo } from './view/Foo';
+export { default as Bobo } from './view/Bobo';
+export { default as IndexHeader } from './view/IndexHeader';
+export { default as IndexSearchBar } from './view/IndexSearchBar';
+export { default as IndexNavBar } from './view/IndexNavBar';
+export { default as IndexFooter } from './view/IndexFooter';
+export { default as TmButton } from './view/TmButton';
+export { default as Menu } from './view/Menu';
+export { default as FaceLeft } from './view/FaceLeft';

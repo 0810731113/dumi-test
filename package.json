@@ -1,0 +1,64 @@
+{
+  "private": false,
+  "name": "@tms/trialos-public-component",
+  "version": "1.1.37",
+  "scripts": {
+    "start": "dumi dev",
+    "docs:build": "dumi buildConf",
+    "docs:deploy": "gh-pages -d docs-dist",
+    "build": "father-build",
+    "deploy": "npm run docs:build && npm run docs:deploy",
+    "release": "npm run build && npm publish",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage",
+    "build-lib": "cross-env BUILD_ENV=test webpack --config buildConf/webpack.lib.js --progress"
+  },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {
+    "@umijs/preset-react": "^1.5.17",
+    "antd": "^3.25.1",
+    "axios": "^0.20.0",
+    "classnames": "^2.2.6",
+    "moment": "^2.24.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "umi": "^3.3.3"
+  },
+  "devDependencies": {
+    "@umijs/test": "^3.0.5",
+    "cross-env": "^5.2.0",
+    "dumi": "^1.0.10",
+    "father-build": "^1.17.2",
+    "gh-pages": "^3.0.0",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "webpack-cli": "^4.3.0",
+    "yorkie": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@umijs/preset-react": ">=1.5.17",
+    "antd": ">=3.23.6",
+    "axios": ">=0.20.0",
+    "classnames": ">=2.2.6",
+    "dumi": ">=1.0.0",
+    "moment": ">=2.24.0",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "umi": ">=3.0.0"
+  }
+}
