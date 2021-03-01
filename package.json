@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "@reactivex/rxjs": "^6.6.6",
     "@umijs/preset-react": "^1.5.17",
     "antd": "^3.25.1",
     "axios": "^0.20.0",
@@ -36,7 +37,7 @@
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "rxjs": "^6.6.6",
+    "rxjs-compat": "^6.6.6",
     "umi": "^3.3.3"
   },
   "devDependencies": {

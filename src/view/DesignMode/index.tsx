@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { setLocale } from 'umi';
 import { Subject, Observer } from '@/util/Subject';
 import { Schedule } from '@/util/Schedule';
+import { Observable } from '@reactivex/rxjs';
 
 type MsgType = string;
 function hello(msg: MsgType) {
@@ -49,11 +50,30 @@ export default () => {
     appStore.publishProduct('macbookPro', '9999');
   };
 
+  const testC = () => {};
+
+  useEffect(() => {
+    listenRx();
+  }, []);
+
+  function listenRx() {
+    const button = document.querySelector('#button1');
+    // Rx.Observable.fromEvent(button,'click').subscribe(() => {
+    Observable.fromEvent(button, 'click')
+      .throttleTime(1000)
+      .scan(count => count + 1, 0)
+      .subscribe(count => {
+        console.log(`Clicked!!! ${count} times`);
+      });
+  }
+
   return (
     <div className={``}>
       <h1>我是测试设计模式</h1>
       <Button onClick={testA}>观察者模式</Button>
       <Button onClick={testB}>发布订阅模式</Button>
+      <Button onClick={testC}>测试RXJS</Button>
+      <div id="button1">点击触发rxjs事件</div>
     </div>
   );
 };
