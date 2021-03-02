@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { setLocale } from 'umi';
 // import { Subject, Observer } from '@/util/Subject';
 // import { Schedule } from '@/util/Schedule';
-import { Observable, Subject } from '@reactivex/rxjs';
+import { Observable, Subject, Scheduler } from '@reactivex/rxjs';
 import { Observer } from '@/util/Subject';
 // import set = Reflect.set;
 
@@ -56,6 +56,7 @@ export default () => {
 
   useEffect(() => {
     listenRx();
+    inputTest();
   }, []);
 
   function listenRx() {
@@ -134,6 +135,130 @@ export default () => {
     }, 4000);
   };
 
+  const test_subject2 = () => {
+    var observable1 = Observable.interval(400);
+    var observable2 = Observable.interval(1000);
+
+    var subscription = observable1.subscribe(x => console.log('first: ' + x));
+    var childSubscription = observable2.subscribe(x =>
+      console.log('second: ' + x),
+    );
+
+    subscription.add(childSubscription);
+
+    setTimeout(() => {
+      // subscription 和 childSubscription 都会取消订阅
+      subscription.unsubscribe();
+    }, 5000);
+  };
+
+  const test_subject3 = () => {
+    var source = Observable.interval(1000);
+    var subject = new Subject();
+    var multicasted = source.multicast(subject);
+
+    // 在底层使用了 `subject.subscribe({...})`:
+    const subscription1 = multicasted.subscribe({
+      next: v => console.log('observerA: ' + v),
+    });
+    const subscription2 = multicasted.subscribe({
+      next: v => console.log('observerB: ' + v),
+    });
+
+    // 在底层使用了 `source.subscribe(subject)`:
+    multicasted.connect();
+    setTimeout(() => {
+      // multicasted.unsubscribe
+      subscription1.unsubscribe();
+      subscription2.unsubscribe();
+    }, 4000);
+  };
+
+  const test_subject4 = () => {
+    var observable1 = Observable.interval(500);
+    var observable2 = Observable.interval(1500);
+    var merged = Observable.merge(observable1, observable2);
+
+    // 在底层使用了 `subject.subscribe({...})`:
+    const subscription1 = merged.subscribe({
+      next: v => console.log('observerA: ' + v),
+    });
+    const subscription2 = merged.subscribe({
+      next: v => console.log('observerB: ' + v),
+    });
+
+    // 在底层使用了 `source.subscribe(subject)`:
+    setTimeout(() => {
+      // multicasted.unsubscribe
+      subscription1.unsubscribe();
+      subscription2.unsubscribe();
+    }, 4000);
+  };
+
+  const test_subject5 = () => {
+    var observable = Observable.create(function(observer) {
+      observer.next(1);
+      observer.next(2);
+      observer.next(3);
+      observer.complete();
+    }).observeOn(Scheduler.async);
+
+    console.log('just before subscribe');
+    observable.subscribe({
+      next: x => console.log('got value ' + x),
+      error: err => console.error('something wrong occurred: ' + err),
+      complete: () => console.log('done'),
+    });
+    console.log('just after subscribe');
+  };
+
+  const inputTest = () => {
+    var increaseButton = document.querySelector('#increase');
+    var increase = Observable.fromEvent(increaseButton, 'click')
+      // 我们再一次映射到一个函数，它会增加 count
+      .map(() => state => Object.assign({}, state, { count: state.count + 1 }));
+
+    var decreaseButton = document.querySelector('#decrease');
+    var decrease = Observable.fromEvent(decreaseButton, 'click')
+      // 我们还是映射到一个函数，它会减少 count
+      .map(() => state => Object.assign({}, state, { count: state.count - 1 }));
+
+    var inputElement = document.querySelector('#input3');
+    var input = Observable.fromEvent(inputElement, 'input')
+      // 我们还将按键事件映射成一个函数，它会产生一个叫做 inputValue 状态
+      .map(event => state =>
+        Object.assign({}, state, { inputValue: event.target.value }),
+      );
+
+    // 我们将这三个改变状态的 observables 进行合并
+    var state = Observable.merge(increase, decrease, input).scan(
+      (state, changeFn) => changeFn(state),
+      {
+        count: 0,
+        inputValue: '',
+      },
+    );
+
+    // 我们订阅状态的变化并更新 DOM
+    state.subscribe(state => {
+      document.querySelector('#count').innerHTML = state.count;
+      document.querySelector('#hello').innerHTML = 'Hello ' + state.inputValue;
+    });
+
+    // 为了优化渲染，我们可以检查什么状态是实际上已经发生变化了的
+    var prevState = {};
+    state.subscribe(state => {
+      if (state.count !== prevState.count) {
+        document.querySelector('#count').innerHTML = state.count;
+      }
+      if (state.inputValue !== prevState.inputValue) {
+        document.querySelector('#hello').innerHTML =
+          'Hello ' + state.inputValue;
+      }
+      prevState = state;
+    });
+  };
+
   return (
     <div className={``}>
       <h1>我是测试设计模式</h1>
@@ -144,6 +269,19 @@ export default () => {
       <Button onClick={test_rxjs2}>点击触发rxjs2</Button>
       <Button onClick={test_rxjs3}>点击触发rxjs3</Button>
       <Button onClick={test_subject1}>点击触发subject1</Button>
+      <Button onClick={test_subject2}>点击触发subject2</Button>
+      <Button onClick={test_subject3}>多播的 Observables</Button>
+      <Button onClick={test_subject4}>merge</Button>
+      <Button onClick={test_subject5}>Scheduler </Button>
+      <input id="input1" />
+      <div id="button2">点击button2</div>
+      输入的字符是:<span id="receiver"></span>
+      state:
+      <span id="increase"> + </span>
+      <span id="decrease"> - </span>
+      <input id="input3" type="text" />
+      <span id="count"></span>
+      <span id="hello"></span>
     </div>
   );
 };
