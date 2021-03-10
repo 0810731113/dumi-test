@@ -3,3 +3,4 @@ export { default as Bobo } from './view/Bobo';
 export { default as TmButton } from './view/TmButton';
 export { default as Menu } from './view/Menu';
 export { default as DesignMode } from './view/DesignMode';
+export { default as AlloyFingerTest } from './view/AlloyFingerTest';
