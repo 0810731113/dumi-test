@@ -5,7 +5,7 @@
 Install dependencies,
 
 ```bash
-$ npm i
+$ npm i @tms/trialos-public-component
 ```
 
 Start the dev server,
