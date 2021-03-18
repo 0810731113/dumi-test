@@ -8,11 +8,6 @@ function hello(msg: MsgType) {
   alert(msg);
 }
 export default () => {
-  const changeLang = (lang: string) => {
-    //setLocale('zh-CN', false);
-    setLocale(lang, false);
-  };
-
   return (
     <div className={``}>
       <MyButton></MyButton>

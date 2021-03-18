@@ -6,7 +6,7 @@ nav:
 
 ## Bobo
 
-Demo:
+Demo1:
 
 ```tsx
 import React from 'react';
