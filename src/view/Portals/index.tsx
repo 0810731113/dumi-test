@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.less';
 import Draggable from 'react-draggable';
+import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
 
 const Modal = ({ message, isOpen, children, ...props }) => {
   const onBGClose = e => {
@@ -60,6 +61,9 @@ export default function Component() {
   return (
     <div className="component">
       <button onClick={() => setOpen(true)}>点击</button>
+      <StarOutlined />
+      <StarFilled />
+      <StarTwoTone twoToneColor="#eb2f96" />
       <Modal
         message="Hello World!"
         isOpen={open}
