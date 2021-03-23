@@ -9,6 +9,7 @@ Function.prototype.bind1 = function(thisArg) {
     const allArgs = arg1.concat(arg2);
     if (this instanceof bound) {
       if (self.prototype) {
+        //寄生继承
         function TempFC() {}
         TempFC.prototype = self.prototype;
         bound.prototype = new TempFC();

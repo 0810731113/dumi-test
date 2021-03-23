@@ -13,6 +13,8 @@ import {
 import { SmileOutlined, UserOutlined, CloseOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 
+type LayoutType = Parameter<typeof Form>[0]['layout'];
+
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -84,7 +86,6 @@ const ModalForm: React.FC<ModalFormProps> = ({ visible, onCancel }) => {
 
 const Form4Test = () => {
   const [visible, setVisible] = useState(false);
-
   const showUserModal = () => {
     setVisible(true);
   };
