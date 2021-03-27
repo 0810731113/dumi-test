@@ -1,0 +1,47 @@
+.portal-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  .modal-win {
+    width: 800px;
+    min-height: 600px;
+    //margin-top: -50%;
+    background: #fff;
+    .portal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 56px;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 16px;
+      flex-grow: 0;
+      flex-shrink: 0;
+      .title {
+      }
+      .close-btn {
+      }
+    }
+    .content-box {
+      min-height: calc(600px - 56px - 48px);
+      padding: 16px;
+    }
+    .footer {
+      border-top: 1px solid #f0f0f0;
+      height: 48px;
+      padding: 0 16px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .close-btn {
+        margin-left: 8px;
+      }
+    }
+  }
+}

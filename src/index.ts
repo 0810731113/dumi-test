@@ -5,3 +5,6 @@ export { default as Menu } from './view/Menu';
 export { default as DesignMode } from './view/DesignMode';
 export { default as DecoratorTest } from './view/DecoratorTest';
 export { default as AlloyFingerTest } from './view/AlloyFingerTest';
+export { default as TriggerTest } from './view/TriggerTest';
+export { default as Portals } from './view/Portals';
+export { default as Form4Test } from './view/Form4Test';
