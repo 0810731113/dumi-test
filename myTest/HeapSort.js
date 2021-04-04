@@ -82,3 +82,5 @@ var arr1 = [
 ];
 // var arr1 = [3,5,1,6,9,4,8,7,10,56,23,64,23,6,7,9,777];
 console.log(heapSort(arr1));
+
+Math.random();
