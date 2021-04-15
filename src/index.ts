@@ -8,3 +8,6 @@ export { default as AlloyFingerTest } from './view/AlloyFingerTest';
 export { default as TriggerTest } from './view/TriggerTest';
 export { default as Portals } from './view/Portals';
 export { default as Form4Test } from './view/Form4Test';
+export { default as VirtualDom } from './view/VirtualDom';
+export { default as RequestIdleCallback } from './view/RequestIdleCallback';
+export { default as VirtualList1 } from './view/VirtualList1';
