@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+      <title>matrix</title>
+      <style type="text/css">
+        body {
+            margin:0; padding:0;background:black;
+          }
+        .rect {
+            background:green;
+          }
+        .arc {
+            border-radius:5px; background:green; box-shadow:2px solid #fff;
+          }
+        ul {
+            list-style:none; margin:0; padding:0; position:absolute;
+          }
+        li {
+            width:20px; height:20px; position:absolute;
+          }
+        h1 {
+            text-align:center; line-height:150px; font-size:150px; color:green;
+          }
+      </style>
+    </head>
+  <body>
+    <h1>Chrome下兼容</h1>
+  </body>
+  <script type="text/javascript">
+  var body = document.getElementsByTagName("body")[0];
+  function getColor() {
+    var color = "rgb(";
+    color += (10+Math.round(Math.random()*245));
+    color += ",";
+    color += (10+Math.round(Math.random()*245));
+    color += ",";
+    color += (10+Math.round(Math.random()*245));
+    color += ")";
+    return color;
+  }
+  var matrixData = [
+    [1, 0, 0, 0, 1],
+    [0, 1, 0, 1, 0],
+    [0, 0, 1, 0, 0],
+    [0, 1, 0, 1, 0],
+    [1, 0, 0, 0, 1]
+  ];
+  var matrixData2 = [
+    [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],//1
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],//2
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],//3
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],//4
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],//5
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],//6
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],//7
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],//8
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],//9
+    [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],//9
+    [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],//10
+    [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],//11
+    [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],//12
+    [0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0] //13
+  ];
+  function createDom(attrs) {
+    var dom = document.createElement(attrs.tagName);
+    attrs.style ? dom.setAttribute("style", attrs.style) : void(0);
+    attrs.on ? dom.setAttribute("data-on", attrs.on) : void(0);
+    return dom;
+  }
+  var ulList = [];
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  var cols = Math.floor(width/120);
+  var rows = Math.floor(height/120);
+  var xOffset = Math.floor((width%120)/2);
+  function createFlyer(attrs) {
+    var iLength = matrixData.length,
+      jLength = matrixData[0].length,
+      radius = 20,
+      ul = null,
+      bgColor = getColor();
+    ul = createDom({tagName: "ul", style: "height:"+iLength*radius+"px; width:"+jLength*radius+"px; left:"+attrs.left+"px; top:"+attrs.top+"px"});
+    document.body.appendChild(ul);
+    for(var i=0; i<5; i++) {
+      var _data = matrixData[i];
+      for(var j=0; j<5; j++) {
+        var style = "width:"+radius+"px; height:"+radius+"px;left:"+j*radius+"px; top:"+i*radius+"px;background:"+(_data[j] == 0 ? "transparent": bgColor);
+        var li = createDom({tagName: "li", style: style, on: _data[j] ? 1 : 0});
+        ul.appendChild(li);
+      }
+    }
+    ulList.push(ul);
+  }
+  for(var i=0; i<cols; i++) {
+    for(var j=0; j<rows; j++) {
+      createFlyer({left: i*120+xOffset, top: 120*j});
+    }
+  }
+  function setULBgColor(dom, color) {
+    var lis = dom.getElementsByTagName("li");
+    for(var i=0,length=lis.length; i<length; i++) {
+      var _li = lis[i];
+      console.log(_li.getAttribute("data-on"));
+      _li.getAttribute("data-on") ? _li.style.backgroundColor = color : void(0);
+    }
+  }
+  function reset(fn) {
+    var lastIndex = ulList.length - 1;
+    for(var i=0,length=ulList.length; i<length; i++) {
+      var ul = ulList[i];
+      (function(i, ul) {
+        setTimeout(function() {
+          setULBgColor(ul, getColor());
+          if(i === lastIndex) {
+            fn ? fn() : void(0);
+          }
+        }, i*30);
+      })(i, ul);
+    }
+  };
+  function firstStep() {
+    var color = getColor();
+    var lastIndex = ulList.length - 1;
+    for(var i=0,length=ulList.length; i<length; i++) {
+      var ul = ulList[i];
+      (function(i, ul) {
+        setTimeout(function() {
+          setULBgColor(ul, color);
+          if(i == lastIndex) {
+            secondStep();
+          }
+        }, i*30);
+      })(i, ul);
+    }
+  }
+  function secondStep() {
+    reset(thirdStep);
+  }
+  function thirdStep() {
+    var angle = 0;
+    var addAngle = 15;
+    var interval = setInterval(function() {
+      angle += addAngle;
+      if(angle > 720) {
+        angle = 0;
+        clearInterval(interval);
+        createMatrix2();
+      }
+      for(var i=0,length=ulList.length; i<length; i++) {
+        var ul = ulList[i];
+        ul.style.webkitTransform = "rotate("+angle+"deg)";
+      }
+    }, 50);
+  }
+  function createMatrix2() {
+    body.innerHTML = "";
+    var iLength = matrixData2.length,
+      jLength = matrixData2[0].length,
+      radius = 20,
+      ul = null,
+      height = jLength*radius,
+      width = iLength*radius,
+      bgColor = getColor(),
+      left = (window.innerWidth - width)/2,
+      top = (window.innerHeight - height)/2
+    console.log(window.innerWidth);
+    console.log(width);
+    ul = createDom({tagName: "ul", style: "height:"+iLength*radius+"px; width:"+jLength*radius+"px; left:"+left+"px; top:"+top+"px"});
+    document.body.appendChild(ul);
+    for(var i=0; i<iLength; i++) {
+      var _data = matrixData2[i];
+      for(var j=0; j<jLength; j++) {
+        var style = "width:"+radius+"px; height:"+radius+"px;left:"+j*radius+"px; top:"+i*radius+"px;background:"+(_data[j] == 0 ? "transparent": getColor());
+        var li = createDom({tagName: "li", style: style, on: _data[j] ? 1 : 0});
+        li.className = "arc";
+        ul.appendChild(li);
+      }
+    }
+    ul.style.webkitTransform = "scale(0.1, 0.1)";
+    var scale = 0.1;
+    var interval = setInterval(function() {
+      ul.style.webkitTransform = "scale("+scale+", "+scale+")";
+      scale += 0.1;
+      if(scale > 1) {
+        clearInterval(interval);
+      }
+    }, 50);
+  }
+  firstStep();
+</script>
+</html>
