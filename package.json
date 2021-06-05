@@ -10,7 +10,7 @@
     "deploy": "npm run docs:build && npm run docs:deploy",
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "test": "umi-test",
+    "test": "umi-test  --runInBand --detectOpenHandles",
     "test:coverage": "umi-test --coverage",
     "build-lib": "cross-env BUILD_ENV=test webpack --config buildConf/webpack.lib.js --progress"
   },
@@ -29,7 +29,10 @@
     ]
   },
   "jest": {
-    "verbose": true
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
   },
   "dependencies": {
     "@reactivex/rxjs": "^6.6.6",
@@ -46,24 +49,28 @@
     "umi": "^3.3.3"
   },
   "devDependencies": {
-    "jest-config": "^27.0.4",
     "@babel/core": "^7.13.14",
-    "babel-types": "^6.26.0",
     "@babel/plugin-syntax-jsx": "^7.12.13",
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-react": "^7.13.13",
     "@jest/types": "^27.0.2",
     "@testing-library/react": "^11.2.7",
+    "@types/expect-puppeteer": "^4.4.5",
+    "@types/jest-environment-puppeteer": "^4.4.1",
+    "@types/puppeteer": "^5.4.3",
     "@umijs/test": "^3.0.5",
     "babel-jest": "^27.0.2",
+    "babel-types": "^6.26.0",
     "cross-env": "^5.2.0",
     "dumi": "^1.0.10",
     "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",
     "jest": "^27.0.4",
+    "jest-config": "^27.0.4",
     "jest-puppeteer": "^5.0.4",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
+    "puppeteer": "^10.0.0",
     "puppeteer-core": "^10.0.0",
     "react-test-renderer": "^17.0.2",
     "rollup-plugin-terser": "^7.0.2",
