@@ -10,7 +10,7 @@
     "deploy": "npm run docs:build && npm run docs:deploy",
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "test": "umi-test  --runInBand --detectOpenHandles",
+    "test": "umi-test  --runInBand --detectOpenHandles --unhandled-rejections=strict",
     "test:coverage": "umi-test --coverage",
     "build-lib": "cross-env BUILD_ENV=test webpack --config buildConf/webpack.lib.js --progress"
   },
@@ -63,6 +63,7 @@
     "babel-types": "^6.26.0",
     "cross-env": "^5.2.0",
     "dumi": "^1.0.10",
+    "expect-puppeteer": "^5.0.4",
     "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",
     "jest": "^27.0.4",

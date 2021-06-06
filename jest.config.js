@@ -18,8 +18,10 @@
 const { defaults } = require('jest-config');
 const { Config } = require('@jest/types');
 module.exports = {
+  verbose: true,
   moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
   preset: 'jest-puppeteer',
+  setupFilesAfterEnv: ['expect-puppeteer'],
   globalSetup: './setup.js',
   globalTeardown: './teardown.js',
   testEnvironment: './puppeteer_environment.js',
